@@ -12,13 +12,8 @@ public abstract class DashaMap implements HashMapX {
         }
     }
 
-
-    public String delete(String key) {
-        return null;
-    }
-
-    public String get(String key) {
-        return null;
+    public Node[] getHashArr() {
+        return hashArr;
     }
 
     public boolean isEmpty() {
@@ -36,7 +31,44 @@ public abstract class DashaMap implements HashMapX {
         return result;
     }
 
-    public boolean bucketSize(String key) {
-        return false;
+    public void appendTo(String letter, Node node) {
+        for (Node n : hashArr) {
+            if (n.getKey().equals(letter)) {
+                Node temp = n;
+                while (temp.getNext() != null) {
+                    temp = temp.getNext();
+                }
+                temp.setNext(node);
+            }
+        }
+    }
+
+    public Node findNode(String hashKey, String key) {
+        for(Node n : hashArr) {
+            if (n.getKey().equals(hashKey)) {
+                Node temp = n;
+                while (!temp.getKey().equals(key)) {
+                    if (temp.getNext() != null) temp = temp.getNext();
+                    else break;
+                }
+                return temp;
+            }
+        }
+        return null;
+    }
+
+    public void delete(String keyHash, String key) {
+        for (Node n : hashArr) {
+            if (n.getKey().equals(keyHash)) {
+                Node temp = n;
+                Node reconnect = n;
+                while (temp.getNext() != null && !temp.getKey().equals(key)) {
+                    reconnect = temp;
+                    temp = temp.getNext();
+                }
+                reconnect.setNext(temp.getNext());
+                temp.setNext(null);
+            }
+        }
     }
 }
